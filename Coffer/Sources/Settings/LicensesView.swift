@@ -1,0 +1,5 @@
+import SwiftUI
+struct LicensesView: View {
+    private let licenses: [(String, String, String)] = [("KaTeX", "MIT", "KaTeX renders mathematical formulas offline."), ("VLCKit", "LGPL-2.1", "VideoLAN's media playback framework powers additional audio and video formats."), ("ZIPFoundation", "MIT", "ZIPFoundation reads and writes ZIP archives."), ("marked", "MIT", "marked renders Markdown documents."), ("DOMPurify", "Apache-2.0 / MPL-2.0", "DOMPurify sanitizes rendered HTML content."), ("highlight.js", "BSD-3-Clause", "highlight.js highlights source code in previews.")]
+    var body: some View { List { ForEach(licenses, id: \.0) { name, license, detail in VStack(alignment: .leading, spacing: 8) { Text(name).font(.cofferHeadline).foregroundStyle(Color.ink); Text(license).font(.cofferCaption).foregroundStyle(Color.pinkInk); Text(detail).font(.cofferCallout).foregroundStyle(Color.inkSecondary) }.padding(.vertical, 8).listRowBackground(Color.surface) } }.paperList().navigationTitle("Licenses") }
+}

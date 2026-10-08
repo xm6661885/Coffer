@@ -1,0 +1,72 @@
+# XcodeGen spec for Coffer. Do not hand-edit Coffer.xcodeproj; edit this file and run ./scripts/build.sh.
+name: Coffer
+options:
+  bundleIdPrefix: app.coffer
+  deploymentTarget:
+    iOS: "26.1"
+  createIntermediateGroups: true
+  developmentLanguage: en
+packages:
+  ZIPFoundation:
+    url: https://github.com/weichsel/ZIPFoundation
+    exactVersion: 0.9.20
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    SWIFT_STRICT_CONCURRENCY: minimal
+    TARGETED_DEVICE_FAMILY: "1,2"
+    IPHONEOS_DEPLOYMENT_TARGET: "26.1"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+    MARKETING_VERSION: "1.1"
+    CURRENT_PROJECT_VERSION: "7"
+
+targets:
+  Coffer:
+    type: application
+    platform: iOS
+    sources:
+      - path: Coffer/Sources
+      - path: Coffer/Resources
+        excludes:
+          - "Info.plist"
+          - "Web/KaTeX"
+      - path: Coffer/Resources/Web/KaTeX
+        type: folder
+    dependencies:
+      - package: ZIPFoundation
+      - framework: Vendor/MobileVLCKit.xcframework
+        embed: true
+      - sdk: libc++.tbd
+      - sdk: libiconv.tbd
+      - sdk: libbz2.tbd
+      - sdk: libz.tbd
+      - sdk: libxml2.tbd
+      - sdk: AudioToolbox.framework
+      - sdk: VideoToolbox.framework
+      - sdk: CoreMedia.framework
+      - sdk: CoreVideo.framework
+      - sdk: OpenGLES.framework
+      - sdk: QuartzCore.framework
+      - sdk: Security.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.coffer.Coffer
+        PRODUCT_NAME: Coffer
+        INFOPLIST_FILE: Coffer/Resources/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        OTHER_LDFLAGS: ["-ObjC"]
+        ENABLE_BITCODE: NO
+        SUPPORTS_MACCATALYST: NO
+        GENERATE_INFOPLIST_FILE: NO
+        SWIFT_OBJC_BRIDGING_HEADER: Coffer/Sources/Support/Coffer-Bridging-Header.h
+
+schemes:
+  Coffer:
+    build:
+      targets:
+        Coffer: all
+    run:
+      config: Debug
