@@ -55,11 +55,6 @@ import Observation
         })
         notifications.append(NotificationCenter.default.addObserver(forName: AVAudioSession.routeChangeNotification, object: nil, queue: .main) { [weak self] note in let reason = note.userInfo?[AVAudioSessionRouteChangeReasonKey] as? UInt; if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue { Task { @MainActor in self?.pause() } } })
     }
-    func restoreSession() {
-        guard let session = positions.lastSession, !session.queue.isEmpty else { return }
-        queue = session.queue; originalQueue = session.originalQueue; index = min(session.index, queue.count - 1); sourceTitle = session.sourceTitle
-        loadCurrent(play: false, restoreTime: session.time)
-    }
     func play(_ refs: [MediaRef], startAt: Int = 0, sourceTitle: String? = nil) {
         guard !refs.isEmpty else { return }
         savePosition(); queue = refs; originalQueue = refs; index = max(0, min(startAt, refs.count - 1)); self.sourceTitle = sourceTitle; failures = 0
